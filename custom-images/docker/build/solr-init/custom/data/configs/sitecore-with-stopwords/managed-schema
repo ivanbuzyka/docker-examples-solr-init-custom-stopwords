@@ -2,7 +2,7 @@
 <!-- Solr managed schema - automatically generated - DO NOT EDIT -->
 <schema name="default-config" version="1.6">
   <uniqueKey>_uniqueid</uniqueKey>
-  <fieldType name="_nest_path_" class="solr.NestPathField" omitTermFreqAndPositions="true" omitNorms="true" maxCharsForDocValues="-1" stored="false"/>
+  <fieldType name="_nest_path_" class="solr.NestPathField" maxCharsForDocValues="-1" omitNorms="true" omitTermFreqAndPositions="true" stored="false" multiValued="false"/>
   <fieldType name="ancestor_path" class="solr.TextField">
     <analyzer type="index">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
@@ -42,7 +42,7 @@
   </fieldType>
   <fieldType name="ignored" class="solr.StrField" indexed="false" stored="false" docValues="false" multiValued="true"/>
   <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true"/>
-  <fieldType name="location_rpt" class="solr.SpatialRecursivePrefixTreeFieldType" geo="true" maxDistErr="0.001" distErrPct="0.025" distanceUnits="kilometers"/>
+  <fieldType name="location_rpt" class="solr.SpatialRecursivePrefixTreeFieldType" geo="true" omitNorms="true" omitTermFreqAndPositions="true" maxDistErr="0.001" termOffsets="false" distErrPct="0.025" distanceUnits="kilometers" termPositions="false" omitPositions="true"/>
   <fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
     <analyzer>
       <tokenizer class="solr.KeywordTokenizerFactory"/>
@@ -67,6 +67,7 @@
   <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
   <fieldType name="point" class="solr.PointType" subFieldSuffix="_d" dimension="2"/>
   <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
+  <fieldType name="rank" class="solr.RankField"/>
   <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true"/>
   <fieldType name="strings" class="solr.StrField" sortMissingLast="true" docValues="true" multiValued="true"/>
   <fieldType name="text_ar" class="solr.TextField" positionIncrementGap="100">
@@ -204,6 +205,14 @@
       <filter class="solr.LowerCaseFilterFactory"/>
       <filter class="solr.StopFilterFactory" format="snowball" words="lang/stopwords_es.txt" ignoreCase="true"/>
       <filter class="solr.SpanishLightStemFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_et" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.StopFilterFactory" words="lang/stopwords_et.txt" ignoreCase="true"/>
+      <filter class="solr.SnowballPorterFilterFactory" language="Estonian"/>
     </analyzer>
   </fieldType>
   <fieldType name="text_eu" class="solr.TextField" positionIncrementGap="100">
@@ -438,6 +447,7 @@
       <tokenizer class="solr.WhitespaceTokenizerFactory"/>
     </analyzer>
   </fieldType>
+  <field name="__boost" type="pfloat" omitNorms="true" default="0" indexed="true" stored="true"/>
   <field name="__bucketable" type="boolean" indexed="true" stored="false"/>
   <field name="__hidden" type="boolean" indexed="true" stored="false"/>
   <field name="__is_bucket" type="boolean" indexed="true" stored="false"/>
@@ -446,28 +456,28 @@
   <field name="_content" type="text_general" indexed="true" stored="false"/>
   <field name="_created" type="pdate" indexed="true" stored="true"/>
   <field name="_creator" type="lowercase" indexed="true" stored="true"/>
-  <field name="_database" type="string" indexed="true" stored="true"/>
-  <field name="_datasource" type="string" indexed="true" required="true" stored="true"/>
+  <field name="_database" type="lowercase" indexed="true" stored="true"/>
+  <field name="_datasource" type="lowercase" indexed="true" required="true" stored="true"/>
   <field name="_displayname" type="text_general" indexed="true" stored="true"/>
   <field name="_editor" type="lowercase" indexed="true" stored="true"/>
   <field name="_fullpath" type="lowercase" indexed="true" stored="true"/>
   <field name="_group" type="string" indexed="true" stored="true"/>
   <field name="_hash" type="string" indexed="true" stored="true"/>
   <field name="_hidden" type="boolean" indexed="true" stored="false"/>
-  <field name="_icon" type="string" indexed="true" stored="true"/>
-  <field name="_indexname" type="string" indexed="true" stored="true"/>
+  <field name="_icon" type="lowercase" indexed="true" stored="true"/>
+  <field name="_indexname" type="lowercase" indexed="true" stored="true"/>
   <field name="_indextimestamp" type="pdate" default="NOW" indexed="true" stored="true"/>
   <field name="_isclone" type="boolean" indexed="true" stored="true"/>
   <field name="_language" type="string" indexed="true" stored="true"/>
   <field name="_latestversion" type="boolean" indexed="true" stored="true"/>
-  <field name="_links" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="_links" type="lowercase" multiValued="true" indexed="true" stored="true"/>
   <field name="_name" type="text_general" indexed="true" stored="true"/>
   <field name="_parent" type="string" indexed="true" stored="true"/>
-  <field name="_path" type="string" multiValued="true" indexed="true" stored="false"/>
+  <field name="_path" type="string" multiValued="true" indexed="true" stored="true"/>
   <field name="_readaccess" type="lowercase" docValues="false" multiValued="true" indexed="true" stored="false"/>
-  <field name="_tags" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="_tags" type="lowercase" multiValued="true" indexed="true" stored="true"/>
   <field name="_template" type="lowercase" indexed="true" stored="true"/>
-  <field name="_templatename" type="string" indexed="true" stored="true"/>
+  <field name="_templatename" type="lowercase" indexed="true" stored="true"/>
   <field name="_templates" type="string" multiValued="true" indexed="true" stored="true"/>
   <field name="_uniqueid" type="string" indexed="true" required="true" stored="true"/>
   <field name="_updated" type="pdate" indexed="true" stored="true"/>
@@ -479,7 +489,7 @@
   <field name="text_rev" type="text_general_rev" multiValued="true" indexed="true" stored="false"/>
   <dynamicField name="*_ignored" type="ignored" indexed="true" stored="true"/>
   <dynamicField name="*_random" type="random" indexed="true" stored="true"/>
-  <dynamicField name="*_t_en" type="text_general" indexed="true" stored="true"/>
+  <dynamicField name="*_t_en" type="text_en" indexed="true" stored="true"/>
   <dynamicField name="*_t_ar" type="text_ar" indexed="true" stored="true"/>
   <dynamicField name="*_t_bg" type="text_bg" indexed="true" stored="true"/>
   <dynamicField name="*_t_ca" type="text_ca" indexed="true" stored="true"/>
@@ -511,10 +521,13 @@
   <dynamicField name="*_t_tr" type="text_tr" indexed="true" stored="true"/>
   <dynamicField name="*_tdtm" type="pdate" multiValued="true" indexed="true" stored="true"/>
   <dynamicField name="*_t_zh" type="text_general" indexed="true" stored="true"/>
+  <dynamicField name="*_t_pl" type="text_general" indexed="true" stored="true"/>
+  <dynamicField name="*_lsm" type="lowercase" multiValued="true" indexed="true" stored="true"/>
   <dynamicField name="*_txm" type="text_general" multiValued="true" indexed="true" stored="true"/>
   <dynamicField name="*_tdt" type="pdate" indexed="true" stored="true"/>
   <dynamicField name="*_rpt" type="location_rpt" indexed="true" stored="true"/>
   <dynamicField name="*_sm" type="string" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="*_ls" type="lowercase" indexed="true" stored="true"/>
   <dynamicField name="*_im" type="pint" multiValued="true" indexed="true" stored="true"/>
   <dynamicField name="*_dt" type="pdate" indexed="true" stored="true"/>
   <dynamicField name="*_ti" type="pint" indexed="true" stored="true"/>
