@@ -1,0 +1,8 @@
+{
+    "collections": [
+        {
+            "name": "sitecore_web_index_config",
+            "config": "sitecore_web_index_config"
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+    "configs": [
+        {
+            "name": "sitecore_web_index_config",
+            "path": "configs\\sitecore-with-stopwords"
+        }
+    ]
+}
