@@ -20,6 +20,8 @@ function Compress-7zip {
 }
 
 Write-Host "Compress '$SolrConfigName' SOLR config set"
+Write-Host "DEBUG: SOLR_USERNAME: '$env:SOLR_USERNAME'"
+Write-Host "DEBUG: SOLR_PASSWORD: '$env:SOLR_PASSWORD'"
 $solrConfigZipPath = Compress-7zip -Path "$SolrConfigDir\*" -DestinationPath "C:\temp\$SolrConfigName.zip"
 Write-Host "Upload '$SolrConfigName' SOLR config set"
 $solrPostConfigUrl = "$SolrEndpoint/admin/configs?action=UPLOAD&name=$SolrConfigName&overwrite=true"
