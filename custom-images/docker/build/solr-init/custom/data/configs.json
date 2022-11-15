@@ -3,6 +3,10 @@
         {
             "name": "sitecore_web_index_config",
             "path": "configs\\sitecore-with-stopwords"
+        },
+        {
+            "name": "sitecore_master_index_config",
+            "path": "configs\\sitecore-with-stopwords-2"
         }
     ]
 }

@@ -3,6 +3,10 @@
         {
             "name": "sitecore_web_index_config",
             "config": "sitecore_web_index_config"
+        },
+        {
+            "name": "sitecore_master_index_config",
+            "config": "sitecore_master_index_config"
         }
     ]
 }
