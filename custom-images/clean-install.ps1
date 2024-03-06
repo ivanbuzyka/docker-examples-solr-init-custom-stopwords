@@ -26,6 +26,9 @@ if ($XM1 -ieq 'XM1') {
 elseif ($XM1 -ieq 'XP1') {
     docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | findstr "docker-examples-xp1")
 }
+elseif ($XM1 -ieq 'XP0M') {
+    docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | findstr "docker-examples-xp0")
+}
 else {
     docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | findstr "docker-examples-xp0")
 } 
@@ -52,6 +55,10 @@ if ($XM1 -ieq 'XM1') {
 elseif ($XM1 -ieq 'XP1') {
     Write-Host "Start Up script for XP1......" -ForegroundColor Cyan
     docker-compose -f docker-compose.xp1.yml -f docker-compose.xp1.override.yml up -d
+}
+elseif ($XM1 -ieq 'XP0M') {
+    Write-Host "Start Up script for XP0M......" -ForegroundColor Cyan
+    docker-compose -f docker-compose.xp0m.yml -f docker-compose.xp0m.override.yml up -d
 }
 else {
     Write-Host "Start Up script for XP0......" -ForegroundColor Cyan

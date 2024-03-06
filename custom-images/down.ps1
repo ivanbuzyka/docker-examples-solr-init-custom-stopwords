@@ -15,6 +15,10 @@ try {
 
   }
   elseif ($XM1 -ieq 'XP1') {
+    Write-Host "Down script for XP0M......" -ForegroundColor Cyan
+    docker-compose -f docker-compose.xp0m.yml -f docker-compose.xp0m.override.yml down
+  }
+  elseif ($XM1 -ieq 'XP0M') {
     Write-Host "Down script for XP1......" -ForegroundColor Cyan
     docker-compose -f docker-compose.xp1.yml -f docker-compose.xp1.override.yml down
 
