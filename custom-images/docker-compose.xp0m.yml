@@ -27,9 +27,6 @@ services:
         condition: service_healthy
       cm:
         condition: service_healthy
-  redis:
-    isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}redis:3.2.100-${EXTERNAL_IMAGE_TAG_SUFFIX}
   mssql:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2017-${EXTERNAL_IMAGE_TAG_SUFFIX}
@@ -120,11 +117,9 @@ services:
       - "traefik.http.routers.id-secure.tls=true"
   cd:
     isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cd:${SITECORE_VERSION}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cd:${VERSION:-latest}
     depends_on:
       id:
-        condition: service_started
-      redis:
         condition: service_started
       xconnect:
         condition: service_started
@@ -140,7 +135,6 @@ services:
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Operations.Client: http://xconnect
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Reporting.Client: http://xconnect
       Sitecore_ConnectionStrings_Xdb.ReferenceData.Client: http://xconnect
-      Sitecore_ConnectionStrings_Redis.Sessions: redis:6379,ssl=False,abortConnect=False
       Sitecore_License: ${SITECORE_LICENSE}
       Sitecore_Analytics_Forwarded_Request_Http_Header: X-Forwarded-For
       SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
